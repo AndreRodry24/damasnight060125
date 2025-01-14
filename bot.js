@@ -10,6 +10,7 @@ import { configurarDespedida } from './bot/codigos/despedidaMembro.js';
 import { handleGroupParticipantsUpdate } from './bot/codigos/avisoadm.js';
 import { handleBanMessage } from './bot/codigos/banUsuario.js';
 import { mencionarTodos } from './bot/codigos/enviarRegras.js';
+import { aviso } from './bot/codigos/avisoRegras.js';
 
 async function connectToWhatsApp() {
     const { version } = await fetchLatestBaileysVersion();
@@ -65,6 +66,10 @@ async function connectToWhatsApp() {
                 .map(admin => admin.id);
 
             await handleAntiLink(sock, message, from, adminNumbers);
+
+            // Chama a função de aviso, caso a mensagem contenha #aviso
+            await aviso(sock, message);
+
         } catch (err) {
             console.error("Erro ao processar mensagens:", err);
         }
